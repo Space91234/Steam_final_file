@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throw Calculator</title>
+</head>
+<body>
+    <h2>Perfect Hit Calculator</h2>
+    <label for="height">Height from ground (inches):</label>
+    <input type="number" id="height" placeholder="e.g., 30">
+    <br><br>
+    <button onclick="calculate()">Calculate</button>
+
+    <h3>Results:</h3>
+    <p id="result"></p>
+
+    <script>
+        function calculateThrowParameters(height) {
+            const g = 386.09; // Gravitational acceleration in inches/s²
+            const distance = 88.5; // Updated horizontal distance in inches
+
+            // Assume a 45-degree launch angle for simplicity
+            let angle = Math.PI / 4; // 45 degrees in radians
+            
+            // Calculate required initial speed to hit the target
+            let speed = Math.sqrt((g * distance ** 2) / (distance * Math.tan(angle) - height));
+
+            return { speed: speed.toFixed(2), angle: (angle * 180 / Math.PI).toFixed(2) };
+        }
+
+        function calculate() {
+            let height = parseFloat(document.getElementById('height').value);
+
+            if (isNaN(height) || height <= 0) {
+                document.getElementById('result').innerText = "Please enter a valid height.";
+                return;
+            }
+
+            let result = calculateThrowParameters(height);
+
+            document.getElementById('result').innerText = `Required Speed: ${result.speed} inches/second, Angle: ${result.angle}°`;
+        }
+    </script>
+</body>
+</html>
